@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "chalk": "registry:npm/chalk#1.0.0+20160211003958"
+  },
+  "ambientDependencies": {
+    "node": "registry:env/node#4.0.0+20160410231109"
+  }
+}

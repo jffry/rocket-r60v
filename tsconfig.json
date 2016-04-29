@@ -8,6 +8,13 @@
     "outDir": "lib/"
   },
   "files": [
+    "./src/index.ts",
+    "./src/protocol/checksum.ts",
+    "./src/protocol/message.ts",
+    "./src/server/proxy.ts",
+    "./src/util/ascii.ts",
+    "./src/util/log.ts",
+    "./src/util/text.ts",
     "./typings/main.d.ts"
   ]
 }

@@ -19,15 +19,15 @@
     "type": "git",
     "url": "https://github.com/jffry/rocket-r60v.git"
   },
-  "main": "./lib/index",
-  "typings": "./lib/index",
+  "main": "lib/index",
+  "typings": "lib/index",
   "files": [
     "LICENSE.md",
-    "./lib/"
+    "lib"
   ],
   "directories": {
-    "doc": "./doc/",
-    "lib": "./lib/"
+    "doc": "doc",
+    "lib": "lib"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

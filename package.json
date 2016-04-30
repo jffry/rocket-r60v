@@ -1,6 +1,6 @@
 {
   "name": "rocket-r60v",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Protocol for speaking to the Rocket R60V espresso machine",
   "keywords": [
     "rocket",

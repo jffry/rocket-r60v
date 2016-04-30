@@ -1,5 +1,6 @@
 {
   "name": "rocket-r60v",
+  "version": "0.0.1",
   "description": "Protocol for speaking to the Rocket R60V espresso machine",
   "keywords": [
     "rocket",
@@ -11,7 +12,6 @@
     "protocol",
     "wifi"
   ],
-  "version": "0.0.1",
   "license": "MIT",
   "author": "Jeffrey Stanton (https://github.com/jffry)",
   "homepage": "https://github.com/jffry/rocket-r60v",
@@ -32,7 +32,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "typings install",
-    "compile": "tsc"
+    "compile": "tsc",
+    "prepublish": "npm run compile"
   },
   "dependencies": {
     "chalk": "^1.1.3"

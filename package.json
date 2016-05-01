@@ -32,10 +32,9 @@
   },
   "scripts": {
     "clean": "rm -rf lib/",
-    "test": "mocha lib/**/*.unit.js",
-    "pretest": "npm run compile",
+    "test": "tsc && mocha lib/**/*.unit.js",
     "compile": "tsc",
-    "precompile": "npm run clean",
+    "precompile": "npm run clean && typings install",
     "prepublish": "npm run compile"
   },
   "dependencies": {

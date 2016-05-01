@@ -1,6 +1,6 @@
 {
   "name": "rocket-r60v",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Protocol for speaking to the Rocket R60V espresso machine",
   "keywords": [
     "rocket",
@@ -33,9 +33,9 @@
   "scripts": {
     "clean": "rm -rf lib/",
     "test": "echo \"Error: no test specified\" && exit 1",
-      "pretest": "npm run compile",
+    "pretest": "npm run compile",
     "compile": "tsc",
-      "precompile": "npm run clean",
+    "precompile": "npm run clean",
     "prepublish": "npm run compile"
   },
   "dependencies": {

@@ -1,4 +1,4 @@
-import {Checksum} from './checksum';
+import {Checksum} from './Checksum';
 import {byteToHex} from '../util/text';
 
 export class Message {

@@ -1,8 +1,6 @@
 import {lzpad} from './text';
 
-export {
-  escapeUnprintables
-};
+export {escapeUnprintables};
 
 /**
  * Escapes unprintable characters in a string so that it is suitable for printing out

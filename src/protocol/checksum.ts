@@ -1,4 +1,4 @@
-import * as ascii from '../util/ascii';
+import {escapeUnprintables} from '../util/ascii';
 import {byteToHex} from '../util/text';
 
 export {
@@ -44,7 +44,7 @@ function verify(msgWithSum:string, throwException = false):boolean {
   var expectedChecksum = calculate(message);
   var isValid = (expectedChecksum === actualChecksum);
   if (!isValid && throwException) {
-    let truncatedMessage = ascii.escapeUnprintables(msgWithSum.substring(0, 9) + (msgWithSum.length > 9 ? '...' : ''));
+    let truncatedMessage = escapeUnprintables(msgWithSum.substring(0, 9) + (msgWithSum.length > 9 ? '...' : ''));
     let errorDetail = `Invalid checksum; expected "${expectedChecksum}", found "${actualChecksum}" in message "${truncatedMessage}"`;
     throw new Error(errorDetail);
   }

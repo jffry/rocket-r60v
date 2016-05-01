@@ -1,7 +1,7 @@
 import * as checksum from './checksum';
 import {byteToHex} from '../util/text';
 
-export default class Message {
+export class Message {
 
   bytes:number[];
   messageType:string; //'r', 'w', or rarely 'z'
@@ -23,11 +23,6 @@ export default class Message {
     return this.bytes[index];
   }
 
-  getChar(index:number):string
-  {
-    return String.fromCharCode(this.bytes[index]);
-  }
-
   getShort(index:number):number
   {
     //apparently this coffee machine encodes multibyte integers as little-endian
@@ -37,22 +32,64 @@ export default class Message {
   getInt(index:number):number
   {
     //apparently this coffee machine encodes multibyte integers as little-endian
-    return (this.bytes[index + 3] << 24)
-      + (this.bytes[index + 2] << 16)
-      + (this.bytes[index + 1] << 8)
-      + (this.bytes[index]);
+    return this.bytes[index]
+     | (this.bytes[index + 1] << 8)
+     | (this.bytes[index + 2] << 16)
+     | (this.bytes[index + 3] << 24);
+  }
+
+  getChar(index:number):string
+  {
+    return String.fromCharCode(this.bytes[index]);
   }
 
   getSubstring(index:number, length:number):string
   {
-    let chars = this.bytes.slice(index, index + length);
-    return String.fromCharCode.apply(String, chars);
+    let charCodes = this.bytes.slice(index, index + length);
+    return String.fromCharCode(...charCodes);
+  }
+
+  setByte(index:number, value:number):void
+  {
+    this.bytes[index] = value & 255;
+  }
+
+  setShort(index:number, value:number):void
+  {
+    for (let i = 0; i < 2; i++)
+    {
+      this.bytes[index + i] = value & 0xff;
+      value >>= 8;
+    }
+  }
+
+  setInt(index:number, value:number):void
+  {
+    for (let i = 0; i < 4; i++)
+    {
+      this.bytes[index + i] = value & 0xff;
+      value >>= 8;
+    }
+  }
+
+  setChar(index:number, char:string):void
+  {
+    this.bytes[index] = char.charCodeAt(0);
+  }
+
+  setSubstring(index:number, str:string):void
+  {
+    for (let i = 0; i < str.length; i++)
+    {
+      this.bytes[index + i] = str.charCodeAt(i);
+    }
   }
 
   serialize():string
   {
     let hexBytes = this.bytes.map(byteToHex).join('');
-    return checksum.attach(this.messageType + hexBytes);
+    let rawMessage = this.messageType + hexBytes;
+    return checksum.attach(rawMessage);
   }
 
   toString():string

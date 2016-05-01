@@ -1,7 +1,7 @@
 Reverse engineering the protocol for the [Rocket R60V](http://www.rocket-espresso.it/r-60v.html)
 espresso machine's WiFi-based command and control interface.
 
-Builds hosted by [Travis CI](https://travis-ci.org/jffry/lb-include):
+Builds hosted by [Travis CI](https://travis-ci.org/jffry/rocket-r60v):
 [<img src="https://api.travis-ci.org/jffry/rocket-r60v.svg?branch=master" valign="middle" />](https://travis-ci.org/jffry/rocket-r60v)
 
 ## Why

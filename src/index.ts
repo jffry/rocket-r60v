@@ -1,3 +1,3 @@
 export * from './protocol/Message';
 export * from './protocol/Checksum';
-export * from './util/Logger';
+export {default as log} from './util/log';

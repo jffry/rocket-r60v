@@ -1,7 +1,7 @@
 import net = require('net');
 import chalk = require('chalk');
 
-import log from '../util/Logger';
+import log from '../util/log';
 import {escapeUnprintables} from '../util/ascii';
 import {Checksum} from '../protocol/Checksum';
 

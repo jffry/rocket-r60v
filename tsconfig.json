@@ -1,20 +1,18 @@
 {
   "version": "1.8.10",
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES5",
     "module": "commonjs",
     "moduleResolution": "node",
     "declaration": true,
     "outDir": "lib/"
   },
-  "files": [
-    "./src/index.ts",
-    "./src/protocol/checksum.ts",
-    "./src/protocol/message.ts",
-    "./src/server/proxy.ts",
-    "./src/util/ascii.ts",
-    "./src/util/log.ts",
-    "./src/util/text.ts",
-    "./typings/main.d.ts"
+  "exclude": [
+    "doc",
+    "lib",
+    "node_modules",
+    "typings/browser",
+    "typings/browser.d.ts",
+    "typings/main"
   ]
 }

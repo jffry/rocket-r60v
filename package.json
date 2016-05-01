@@ -23,6 +23,7 @@
   "typings": "lib/index",
   "files": [
     "LICENSE.md",
+    "README.md",
     "lib"
   ],
   "directories": {
@@ -30,8 +31,11 @@
     "lib": "lib"
   },
   "scripts": {
+    "clean": "rm -rf lib/",
     "test": "echo \"Error: no test specified\" && exit 1",
+      "pretest": "npm run compile",
     "compile": "tsc",
+      "precompile": "npm run clean",
     "prepublish": "npm run compile"
   },
   "dependencies": {

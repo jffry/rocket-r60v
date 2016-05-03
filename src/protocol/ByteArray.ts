@@ -13,6 +13,10 @@ export class ByteArray {
     return this.bytes.length;
   }
 
+  slice(start:number, end?:number) {
+    return new ByteArray(this.bytes.slice(start, end));
+  }
+
   private assertInbounds(index:number, count:number = 1):void {
     if (index < 0 || index + count > this.bytes.length) {
       throw new RangeError('index is out of bounds');
@@ -83,15 +87,15 @@ export class ByteArray {
     }
   }
 
-  serialize():string {
+  toHexString():string {
     return this.bytes.map(byteToHex).join('');
   }
 
   toString():string {
-    return `ByteArray[${this.serialize()}]`;
+    return `ByteArray[${this.toHexString()}]`;
   }
 
-  static deserialize(serialized:string):ByteArray {
+  static fromHexString(serialized:string):ByteArray {
     //we must contain an even number of hex couplets otherwise it's malformed
     if (serialized.length % 2 !== 0) {
       throw new RangeError('serialized form must have an even length');
@@ -120,8 +124,7 @@ export class ByteArray {
 
   static fromBuffer(buf:Buffer):ByteArray {
     let bytes = new Array(buf.length);
-    for (let i = 0; i < buf.length; i++)
-    {
+    for (let i = 0; i < buf.length; i++) {
       bytes[i] = buf[i];
     }
     return new ByteArray(bytes);

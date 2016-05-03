@@ -10,20 +10,28 @@ export class Message {
     //discard the checksum
     let msg = Checksum.extractMessage(rawMessageWithChecksum);
     //type is first character; will be 'r', 'w', or 'z' if present
-    if (/^[rwz]/i.test(msg))
-    {
+    if (/^[rwz]/i.test(msg)) {
       this.type = msg.substring(0, 1);
-      this.bytes = ByteArray.deserialize(msg.substring(1));
+      this.bytes = ByteArray.fromHexString(msg.substring(1));
     }
-    else
-    {
+    else {
       this.type = null;
-      this.bytes = ByteArray.deserialize(msg);
+      this.bytes = ByteArray.fromHexString(msg);
     }
   }
 
+  startsWith(bytes:ByteArray) {
+    for (let i = 0; i < bytes.length(); i++) {
+      if (bytes.getByte(i) !== this.bytes.getByte(i)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   serialize():string {
-    let msg = (this.type || '') + this.bytes.serialize();
+    let msg = (this.type || '') + this.bytes.toHexString();
     return Checksum.attach(msg);
   }
 }

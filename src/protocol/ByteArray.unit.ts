@@ -7,31 +7,31 @@ describe('ByteArray', function () {
     assert.equal(ba.length(), 0);
   });
 
-  describe('static deserialize()', function () {
+  describe('static fromHexString()', function () {
     it('should work when parsing an empty string', function () {
-      let ba = ByteArray.deserialize('');
+      let ba = ByteArray.fromHexString('');
       assert.equal(ba.length(), 0);
     });
     it('should work when parsing a hex string', function () {
-      let ba = ByteArray.deserialize('FFCC33');
+      let ba = ByteArray.fromHexString('FFCC33');
       assert.equal(ba.length(), 3);
       assert.equal(ba.getByte(0), 0xFF);
       assert.equal(ba.getByte(1), 0xCC);
       assert.equal(ba.getByte(2), 0x33);
     });
     it('should not be case sensitive', function () {
-      let ba = ByteArray.deserialize('FfcC33');
+      let ba = ByteArray.fromHexString('FfcC33');
       assert.equal(ba.length(), 3);
       assert.equal(ba.getByte(0), 0xFF);
       assert.equal(ba.getByte(1), 0xCC);
       assert.equal(ba.getByte(2), 0x33);
     });
     it('should fail on string of odd length', function () {
-      assert.throw(() => ByteArray.deserialize('FFCC3'));
+      assert.throw(() => ByteArray.fromHexString('FFCC3'));
     });
     it('should fail on string containing non hex characters', function () {
-      assert.throw(() => ByteArray.deserialize('nothex'));
-      assert.throw(() => ByteArray.deserialize('not\n'));
+      assert.throw(() => ByteArray.fromHexString('nothex'));
+      assert.throw(() => ByteArray.fromHexString('not\n'));
     });
   });
 

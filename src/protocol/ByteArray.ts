@@ -23,6 +23,12 @@ export class ByteArray {
     }
   }
 
+  //0 = false; anything else = true
+  getBoolean(index:number):boolean {
+    this.assertInbounds(index, 1);
+    return !!this.bytes[index];
+  }
+
   getByte(index:number):number {
     this.assertInbounds(index, 1);
     return this.bytes[index];
@@ -59,11 +65,18 @@ export class ByteArray {
     return String.fromCharCode(...charCodes);
   }
 
+  setBoolean(index:number, value:boolean) {
+    this.assertInbounds(index, 1);
+    this.bytes[index] = value ? 1 : 0;
+  }
+
   setByte(index:number, value:number):void {
-    this.bytes[index] = value & 255;
+    this.assertInbounds(index, 1);
+    this.bytes[index] = value & 0xff;
   }
 
   setShort(index:number, value:number):void {
+    this.assertInbounds(index, 2);
     for (let i = 0; i < 2; i++) {
       this.bytes[index + i] = value & 0xff;
       value >>= 8;
@@ -71,6 +84,7 @@ export class ByteArray {
   }
 
   setInt(index:number, value:number):void {
+    this.assertInbounds(index, 4);
     for (let i = 0; i < 4; i++) {
       this.bytes[index + i] = value & 0xff;
       value >>= 8;
@@ -78,6 +92,7 @@ export class ByteArray {
   }
 
   setAsciiChar(index:number, char:string):void {
+    this.assertInbounds(index, 1);
     this.bytes[index] = char.charCodeAt(0);
   }
 

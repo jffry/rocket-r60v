@@ -1,4 +1,4 @@
-export {lzpad, byteToHex};
+export {lzpad, byteToHex, startsWith};
 
 //left-zero-pad to desired length
 function lzpad(str:string, len:number):string {
@@ -13,4 +13,8 @@ function byteToHex(byteValue:number):string {
   let hex = byteValue.toString(16).toUpperCase();
   while (hex.length < 2) hex = '0' + hex;
   return hex;
+}
+
+function startsWith(str:string, prefix:string) {
+  return str.substring(0, prefix.length) === prefix;
 }

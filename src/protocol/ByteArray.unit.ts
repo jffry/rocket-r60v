@@ -57,6 +57,25 @@ describe('ByteArray', function () {
     });
   });
 
+  describe('getBoolean()', function () {
+    it('should return false if the byte value is 0', function () {
+      let ba = new ByteArray([0x00, 0x01, 0x02, 0xff]);
+      assert.equal(ba.getBoolean(0), false);
+    });
+    it('should return true if tye byte value is not 0', function () {
+      let ba = new ByteArray([0x00, 0x01, 0x02, 0xff]);
+      assert.equal(ba.getBoolean(1), true);
+      assert.equal(ba.getBoolean(2), true);
+      assert.equal(ba.getBoolean(3), true);
+    });
+    it('should perform basic bounds checking', function () {
+      let ba = ByteArray.ofLength(10);
+      assert.throw(() => ba.getBoolean(-1));
+      assert.throw(() => ba.getBoolean(10));
+      assert.throw(() => ba.getBoolean(11));
+    });
+  });
+
   describe('getByte()', function () {
     it('should retrieve the right 8-bit bytes', function () {
       let ba = new ByteArray([0xCA, 0xFE, 0xFF, 0x57]);

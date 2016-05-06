@@ -68,11 +68,11 @@ export class PressureProfile {
 
 }
 
-enum TemperatureUnit {
+export enum TemperatureUnit {
   Celsius = 0,
   Fahrenheit = 1
 }
-enum WaterSource {
+export enum WaterSource {
   PlumbedIn = 0,
   Tank = 1
 }
@@ -108,7 +108,18 @@ export class TimeOfDay {
   }
 }
 
-enum Language {
+export enum DayOfWeek {
+  Unknown = 0,
+  Monday = 1,
+  Tuesday = 2,
+  Wednesday = 3,
+  Thursday = 4,
+  Friday = 5,
+  Saturday = 6,
+  Sunday = 7
+}
+
+export enum Language {
   English = 0,
   German = 1,
   French = 2,
@@ -141,7 +152,7 @@ export class MachineState {
 
   autoOnTime:TimeOfDay;
   autoStandbyTime:TimeOfDay;
-  autoSkipDay:number; //0 = no day off, 1 = Monday, 2 = Tuesday, .... 7 = Sunday
+  autoSkipDay:DayOfWeek;
 }
 
 export class BinaryFormat {

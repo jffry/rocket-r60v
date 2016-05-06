@@ -1,4 +1,4 @@
-import {ByteArray} from '../ByteArray';
+import {MemorySlice} from '../MemorySlice';
 import {Message} from './Message'
 import {Checksum} from "../Checksum";
 import {startsWith} from "../../util/text";
@@ -15,7 +15,7 @@ export class DisplayState {
 }
 
 export class BinaryFormat {
-  static parse(bytes:ByteArray) {
+  static parse(bytes:MemorySlice) {
     let state = new DisplayState();
     state.coffeeTemperature = bytes.getByte(0);
     state.steamTemperature = bytes.getByte(1);

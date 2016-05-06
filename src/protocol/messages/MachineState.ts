@@ -1,4 +1,4 @@
-import {ByteArray} from '../ByteArray';
+import {MemorySlice} from '../MemorySlice';
 import {Message} from './Message'
 import {Checksum} from "../Checksum";
 import {startsWith} from "../../util/text";
@@ -157,7 +157,7 @@ export class MachineState {
 
 export class BinaryFormat {
 
-  static parse(bytes:ByteArray) {
+  static parse(bytes:MemorySlice) {
     let state = new MachineState();
     state.temperatureUnit = (bytes.getByte(0) === 0) ? TemperatureUnit.Celsius : TemperatureUnit.Fahrenheit;
     state.language = bytes.getByte(1); //TODO: validate?
@@ -182,8 +182,8 @@ export class BinaryFormat {
     return state;
   }
 
-  static serialize(state:MachineState):ByteArray {
-    let bytes = ByteArray.ofLength(100, 0); //100 bytes, initialized to 0
+  static serialize(state:MachineState):MemorySlice {
+    let bytes = MemorySlice.ofLength(100, 0); //100 bytes, initialized to 0
     bytes.setByte(0, state.temperatureUnit);
     bytes.setByte(1, state.language);
     bytes.setByte(2, state.coffeeTemperature);
@@ -209,20 +209,20 @@ export class BinaryFormat {
     return bytes;
   }
 
-  static parsePIDConstants(bytes:ByteArray, offset:number):PIDConstants {
+  static parsePIDConstants(bytes:MemorySlice, offset:number):PIDConstants {
     let p = bytes.getShort(offset);
     let i = bytes.getShort(offset + 6);
     let d = bytes.getShort(offset + 12);
     return new PIDConstants(p, i, d);
   }
 
-  static writePIDConstants(bytes:ByteArray, pid:PIDConstants, offset:number) {
+  static writePIDConstants(bytes:MemorySlice, pid:PIDConstants, offset:number) {
     bytes.setShort(offset, pid.proportional);
     bytes.setShort(offset + 6, pid.integral);
     bytes.setShort(offset + 12, pid.derivative);
   }
 
-  static parsePressureProfile(bytes:ByteArray, offset:number):PressureProfile {
+  static parsePressureProfile(bytes:MemorySlice, offset:number):PressureProfile {
     return new PressureProfile([
       new Step(bytes.getShort(offset + 0), bytes.getByte(offset + 10)),
       new Step(bytes.getShort(offset + 2), bytes.getByte(offset + 11)),
@@ -232,7 +232,7 @@ export class BinaryFormat {
     ]);
   }
 
-  static writePressureProfile(bytes:ByteArray, profile:PressureProfile, offset:number) {
+  static writePressureProfile(bytes:MemorySlice, profile:PressureProfile, offset:number) {
     for (let i = 0; i < 5; i++) {
       let step = profile.steps[i];
       bytes.setShort(offset + (2 * i), step.duration);

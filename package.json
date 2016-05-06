@@ -32,7 +32,7 @@
   },
   "scripts": {
     "clean": "rm -rf lib/",
-    "test": "tsc && mocha lib/**/*.unit.js",
+    "test": "tsc && mocha --recursive 'lib/**/*.unit.js'",
     "compile": "tsc",
     "precompile": "npm run clean && typings install",
     "prepublish": "npm run compile"

@@ -17,17 +17,17 @@ export class DisplayState {
 export class BinaryFormat {
   static parse(bytes:MemorySlice) {
     let state = new DisplayState();
-    state.coffeeTemperature = bytes.getByte(0);
-    state.steamTemperature = bytes.getByte(1);
-    state.pumpPressure = bytes.getByte(2);
-    state.time = new TimeOfDay(bytes.getByte(3), bytes.getByte(4));
-    state.day = bytes.getByte(5);
-    state.status = bytes.getByte(6);
+    state.coffeeTemperature = bytes.getByte(0xB000);
+    state.steamTemperature = bytes.getByte(0xB001);
+    state.pumpPressure = bytes.getByte(0xB002);
+    state.time = new TimeOfDay(bytes.getByte(0xB003), bytes.getByte(0xB004));
+    state.day = bytes.getByte(0xB005);
+    state.status = bytes.getByte(0xB006);
     state.displayText = [
-      bytes.getSubstring(7, 7 + 16),
-      bytes.getSubstring(23, 23 + 16),
-      bytes.getSubstring(39, 39 + 16),
-      bytes.getSubstring(55, 55 + 16)
+      bytes.getSubstring(0xB007, 0xB017),
+      bytes.getSubstring(0xB017, 0xB027),
+      bytes.getSubstring(0xB027, 0xB037),
+      bytes.getSubstring(0xB037, 0xB047)
     ];
     return state;
   }
@@ -39,13 +39,13 @@ export class DisplayStateReadResult extends Message {
 
   constructor(rawMessageWithChecksum:string) {
     super(rawMessageWithChecksum);
-
     if (!DisplayStateReadResult.looksValid(rawMessageWithChecksum)) {
       throw new RangeError('Provided message does not appear to be a machine state response');
     }
     //remove the four preamble bytes
-    this.state = BinaryFormat.parse(this.bytes.slice(4));
-
+    let bytes = this.bytes.slice(4); //slice off leading offset+length from message
+    bytes.offset = 0xB000;
+    this.state = BinaryFormat.parse(bytes);
   }
 
   static looksValid(rawMessageWithChecksum:string):boolean {

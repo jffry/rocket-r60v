@@ -37,7 +37,7 @@ describe('MemorySlice', function () {
 
   describe('static ofLength()', function () {
     it('should make an empty ByteArray', function () {
-      let ba = MemorySlice.ofLength(0);
+      let ba = new MemorySlice([]);
       assert.equal(ba.length(), 0);
     });
     it('should make a simple zeroed-out ByteArray', function () {
@@ -54,6 +54,31 @@ describe('MemorySlice', function () {
       assert.equal(ba.getByte(0), FILL);
       assert.equal(ba.getByte(1), FILL);
       assert.equal(ba.getByte(2), FILL);
+    });
+  });
+
+  describe('slice()', function () {
+    it('should extract the specified range, with correct memory offset', function () {
+      let ba = new MemorySlice([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 0);
+      assert.equal(ba.getByte(0x01), 1);
+      assert.equal(ba.getByte(0x02), 2);
+      assert.equal(ba.getByte(0x05), 5);
+      let va = ba.slice(0x01, 0x06);
+      assert.equal(va.length(), 5);
+      assert.equal(va.getByte(0x01), 1);
+      assert.equal(va.getByte(0x02), 2);
+      assert.equal(va.getByte(0x05), 5);
+    });
+    it('should grab the rest if only a start addr is specified, with correct memory offset', function () {
+      let ba = new MemorySlice([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 0);
+      assert.equal(ba.getByte(0x03), 3);
+      assert.equal(ba.getByte(0x06), 6);
+      assert.equal(ba.getByte(0x09), 9);
+      let v = ba.slice(0x03);
+      assert.equal(v.length(), 7);
+      assert.equal(v.getByte(0x03), 3);
+      assert.equal(v.getByte(0x06), 6);
+      assert.equal(v.getByte(0x09), 9);
     });
   });
 

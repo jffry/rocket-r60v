@@ -22,16 +22,18 @@ export class MemorySlice {
 
   //0 = false; anything else = true
   getBoolean(address:number):boolean {
+    this.assertInbounds(address, 1);
     return !!this.getByte(address);
   }
 
   //apparently this coffee machine encodes multibyte integers as little-endian
   getShort(address:number):number {
+    this.assertInbounds(address, 2);
     return this.getByte(address) + (this.getByte(address + 1) * 0x100);
   }
 
   getInt(address:number):number {
-    //TODO: figure out if we can do this faster than bitshifting
+    this.assertInbounds(address, 4);
     return this.getByte(address)
       + (this.getByte(address + 1) * 0x100)
       + (this.getByte(address + 2) * 0x10000)
@@ -39,10 +41,12 @@ export class MemorySlice {
   }
 
   getAsciiChar(address:number):string {
+    this.assertInbounds(address, 1);
     return String.fromCharCode(this.getByte(address));
   }
 
   getSubstring(startAddress:number, endAddress?:number):string {
+    //assertInbounds is handled implicitly by this.byteSlice
     let chars = this.byteSlice(startAddress, endAddress);
     return String.fromCharCode(...chars);
   }
@@ -54,7 +58,7 @@ export class MemorySlice {
     this.bytes[this.toIndex(address)] = value & 0xff;
   }
 
-  setBoolean(address:number, value:boolean) {
+  setBoolean(address:number, value:boolean):void {
     this.assertInbounds(address, 1);
     this.setByte(address, value ? 1 : 0);
   }
@@ -97,7 +101,12 @@ export class MemorySlice {
   }
 
   slice(startAddress:number, endAddress?:number) {
-    return new MemorySlice(this.byteSlice(startAddress, endAddress));
+    let bytes = this.byteSlice(startAddress, endAddress);
+    return new MemorySlice(bytes, startAddress);
+  }
+  
+  clone() {
+    return new MemorySlice(this.bytes, this.offset);
   }
 
   private byteSlice(startAddress:number, endAddress?:number):number[] {

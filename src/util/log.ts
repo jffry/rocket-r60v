@@ -4,7 +4,7 @@ import WritableStream = NodeJS.WritableStream;
 
 //main logging levels
 export default {
-  error: logPrinter('!!', chalk.red.bold, process.stderr),
+  error: logPrinter('!! ', chalk.red.bold, process.stderr),
   comment: logPrinter('## ', chalk.gray, process.stdout),
   info: logPrinter('## ', chalk.gray, process.stdout),
   inbound: logPrinter('<- ', chalk.cyan, process.stdout),

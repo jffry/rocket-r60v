@@ -1,19 +1,21 @@
 {
-  "version": "1.8.10",
+  "version": "2.0.0",
   "compilerOptions": {
     "forceConsistentCasingInFileNames": true,
     "target": "ES5",
+    "lib": ["es5"],
     "module": "commonjs",
     "moduleResolution": "node",
     "declaration": true,
-    "outDir": "lib/"
+    "outDir": "lib/",
+    "noImplicitAny": false,
+    "removeComments": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "pretty": true,
+    "strictNullChecks": false
   },
-  "exclude": [
-    "doc",
-    "lib",
-    "node_modules",
-    "typings/browser",
-    "typings/browser.d.ts",
-    "typings/main"
+  "include": [
+    "src/**/*.ts"
   ]
 }

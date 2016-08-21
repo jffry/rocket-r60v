@@ -7,6 +7,7 @@ export default {
   error: logPrinter('!! ', chalk.red.bold, process.stderr),
   comment: logPrinter('## ', chalk.gray, process.stdout),
   info: logPrinter('## ', chalk.gray, process.stdout),
+  normal: logPrinter('', chalk.white, process.stdout),
   inbound: logPrinter('<- ', chalk.cyan, process.stdout),
   outbound: logPrinter('-> ', chalk.magenta, process.stdout),
 };

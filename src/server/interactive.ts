@@ -21,13 +21,28 @@ run(CONFIG.dest.host, CONFIG.dest.port);
 function allowSending(message:string):boolean {
   //TODO: in future, validate writes as well?
   //TODO: probably should disallow zero-byte reads?
-  return /^r([0-9A-F]{2}){4}$/.test(message);
+  return /^r([0-9A-F]{2}){4}$/.test(message)
+  || /^w([0-9A-F]{2}){4,}$/.test(message);
 }
 
 function prettyPrint(message:string):string {
   //message = String(message);
   let parts = /^(.)(....)(....)(.*)(..)$/i.exec(message);
   return parts ? parts.slice(1).filter(s=>s).join(' ') : message;
+}
+
+function shouldQuit(message:string) {
+  switch (message.toLowerCase()) {
+    case "quit":
+    case "exit":
+    case "leave":
+    case "end":
+    case "bye":
+    case "q":
+      return true;
+    default:
+      return false;
+  }
 }
 
 function run(destHost, destPort):void {
@@ -37,6 +52,10 @@ function run(destHost, destPort):void {
   function promptCommand() {
     waitingForRemote = false;
     rl.question('? ', function (message:string) {
+      if (shouldQuit(message)) {
+        try{ sock.end(); } catch(ex) {}
+        process.exit(0);
+      }
       //protect the user a little bit
       if (!allowSending(message)) {
         log.error('Invalid command');
@@ -50,6 +69,14 @@ function run(destHost, destPort):void {
   }
 
   let sock = new net.Socket();
+  process.on('exit', terminate);
+  process.on('SIGINT', terminate);
+  process.on('SIGTERM', terminate);
+  function terminate() {
+    log.info('Terminating connection...');
+    try { sock.end(); sock.destroy(); } catch(ex) {}
+    sock = null;
+  }
   //show what the server sends
   let bufferData:Buffer[] = [];
   let bufferTimeout:NodeJS.Timer = null;

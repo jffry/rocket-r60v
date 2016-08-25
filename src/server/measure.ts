@@ -133,6 +133,8 @@ function memoryMap() {
       if (offset <= 0xffff) {
         setTimeout(pollingLoop, 150);
       } else {
+        log.info('SAVING RESULTS TO DISK');
+        fs.writeFileSync('memscan.json', JSON.stringify(values));
         process.exit(0);
       }
     });

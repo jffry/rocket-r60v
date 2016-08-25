@@ -1,4 +1,4 @@
-import {byteToHex} from '../util/text';
+import { toHex } from '../util/number';
 
 /**
  * Represents a continuous slice of memory, starting at `offset` bytes.
@@ -129,7 +129,7 @@ export class MemorySlice {
   }
 
   toHexString():string {
-    return this.bytes.map(byteToHex).join('');
+    return this.bytes.map(byte => toHex(byte, 2)).join('');
   }
 
   toString():string {

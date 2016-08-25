@@ -1,5 +1,5 @@
 import {escapeUnprintables} from '../util/ascii';
-import {byteToHex} from '../util/text';
+import { toHex } from '../util/number';
 
 export class Checksum {
 
@@ -26,7 +26,7 @@ export class Checksum {
       }
       sum = sum & 255;
     }
-    return byteToHex(sum);
+    return toHex(sum, 2);
   }
 
   /**
